@@ -16,7 +16,7 @@ import java.net.URLEncoder;
  * Email : wwangyuu@outlook.com
  * University : University of Electronic Science and Technology of Zhangjiang
  */
-public class StackOverFlow implements ILanguageService {
+public class StackOverFlow implements ILanguageService,IService {
 
     private static final String STACKOVERFLOW = "http://stackoverflow.com";
 
@@ -62,5 +62,12 @@ public class StackOverFlow implements ILanguageService {
             Item i = new Item(DocType.StackOverFlow, title, summary_text, STACKOVERFLOW + href);
             en.addItem(i);
         }
+    }
+
+    @Override
+    public ResultEntity getResult(String keyword) throws IOException {
+        ResultEntity en = new ResultEntity();
+        PlainSearch(keyword, en);
+        return en;
     }
 }

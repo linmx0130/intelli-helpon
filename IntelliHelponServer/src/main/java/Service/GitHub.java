@@ -14,7 +14,7 @@ import java.util.List;
  * Email : wwangyuu@outlook.com
  * University : University of Electronic Science and Technology of Zhangjiang
  */
-public class GitHub implements ILanguageService {
+public class GitHub implements ILanguageService,IService {
 
     private static final String GITHUBSEARCH = "https://api.github.com/search/code";
     private static final String GITHUB = "https://github.com";
@@ -23,8 +23,9 @@ public class GitHub implements ILanguageService {
         ResultEntity en = new ResultEntity();
         //String json = NetWorking.GET(GITHUBSEARCH+"?q="+keyword+"+language:"+
          //       language.toLowerCase(),"Accept","application/vnd.github.v3.text-match+json");
-        String json = NetWorking.GET_GITHUB(GITHUBSEARCH+"?q="+keyword);
-        System.out.println(json);
+        String json = NetWorking.GET_GITHUB(GITHUBSEARCH+"?q="+keyword+"+language:"+
+                language.toLowerCase());
+        System.out.print(json);
         Extract(en,json);
         return en;
     }
@@ -35,6 +36,17 @@ public class GitHub implements ILanguageService {
             Item ii = new Item(DocType.Github,i.repository.full_name,i.path,i.html_url);
             en.addItem(ii);
         }
+    }
+
+    @Override
+    public ResultEntity getResult(String keyword) throws IOException {
+        ResultEntity en = new ResultEntity();
+        //String json = NetWorking.GET(GITHUBSEARCH+"?q="+keyword+"+language:"+
+        //       language.toLowerCase(),"Accept","application/vnd.github.v3.text-match+json");
+        String json = NetWorking.GET_GITHUB(GITHUBSEARCH+"?q="+keyword);
+        System.out.print(json);
+        Extract(en,json);
+        return en;
     }
 }
 

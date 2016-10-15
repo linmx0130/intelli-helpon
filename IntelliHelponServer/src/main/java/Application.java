@@ -87,7 +87,6 @@ public class Application {
 
                 break;
             case JavaScript:
-                //TODO JavaScript
                 StackOverFlow stackOverFlowJavaScript = new StackOverFlow();
                 OfficialDocs_JavaScript officialDocs_javaScript = new OfficialDocs_JavaScript();
                 GitHub gitHubJavaScript = new GitHub();
@@ -104,6 +103,21 @@ public class Application {
                 }
                 try {
                     r.Append(officialDocs_javaScript.getResult(key));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case UnSpecific:
+                //Only provide information for stack and github
+                StackOverFlow stackOverFlowUn = new StackOverFlow();
+                GitHub gitHubUn = new GitHub();
+                try {
+                    r.Append(gitHubUn.getResult(key));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    r.Append(stackOverFlowUn.getResult(key));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

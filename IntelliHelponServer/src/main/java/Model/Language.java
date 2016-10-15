@@ -9,5 +9,6 @@ public enum Language {
     C,
     CPP,
     Java,
-    JavaScript
+    JavaScript,
+    UnSpecific
 }
