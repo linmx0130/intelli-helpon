@@ -1,6 +1,14 @@
 package Service;
 
+import Model.DocType;
+import Model.Item;
 import Model.ResultEntity;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 /**
  * Created by 王渝 on 2016-10-15.
@@ -8,8 +16,35 @@ import Model.ResultEntity;
  * University : University of Electronic Science and Technology of Zhangjiang
  */
 public class StackOverFlow implements IService {
+
+    private static final String STACKOVERFLOW = "http://stackoverflow.com";
+
     @Override
-    public ResultEntity getResult(String keyword) {
-        return null;
+    public ResultEntity getResult(String keyword) throws IOException {
+        ResultEntity en = new ResultEntity();
+        String html = NetWorking.GET(STACKOVERFLOW + "/search?q=" + keyword);
+        Document doc = Jsoup.parse(html);
+        Elements search_results = doc.getElementsByClass("question-summary");
+        for (Element ele : search_results) {
+            Element summary = ele.getElementsByClass("summary").first();
+            Element result_link = summary.getElementsByClass("result-link").first();
+            Element excerpt = summary.getElementsByClass("excerpt").first();
+
+            Element link = result_link.select("a").first();
+            String href = link.attr("href");
+            String title = link.text();
+            String summary_text = excerpt.text();
+            String summary_html = excerpt.html();
+
+            System.out.println(href);
+            System.out.println(title);
+            System.out.println(summary_text);
+            System.out.println(summary_html);
+            System.out.println("---------------------------");
+
+            Item i = new Item(DocType.StackOverFlow, title, summary_text, STACKOVERFLOW+href);
+            en.addItem(i);
+        }
+        return en;
     }
 }
