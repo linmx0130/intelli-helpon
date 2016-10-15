@@ -15,14 +15,29 @@ import java.io.IOException;
  * Email : wwangyuu@outlook.com
  * University : University of Electronic Science and Technology of Zhangjiang
  */
-public class StackOverFlow implements IService {
+public class StackOverFlow implements ILanguageService {
 
     private static final String STACKOVERFLOW = "http://stackoverflow.com";
 
     @Override
-    public ResultEntity getResult(String keyword) throws IOException {
+    public ResultEntity getResult(String keyword,String language) throws IOException {
         ResultEntity en = new ResultEntity();
+        TagSearch(keyword,language,en);
+        PlainSearch(keyword, en);
+        return en;
+    }
+
+    private void TagSearch(String keyword, String language, ResultEntity en) throws IOException {
+        String html = NetWorking.GET(STACKOVERFLOW + "/search?q=" + keyword+" ["+language+"]");
+        Extract(en, html);
+    }
+
+    private void PlainSearch(String keyword, ResultEntity en) throws IOException {
         String html = NetWorking.GET(STACKOVERFLOW + "/search?q=" + keyword);
+        Extract(en, html);
+    }
+
+    private void Extract(ResultEntity en, String html) {
         Document doc = Jsoup.parse(html);
         Elements search_results = doc.getElementsByClass("question-summary");
         for (Element ele : search_results) {
@@ -42,9 +57,8 @@ public class StackOverFlow implements IService {
             System.out.println(summary_html);
             System.out.println("---------------------------");
 
-            Item i = new Item(DocType.StackOverFlow, title, summary_text, STACKOVERFLOW+href);
+            Item i = new Item(DocType.StackOverFlow, title, summary_text, STACKOVERFLOW + href);
             en.addItem(i);
         }
-        return en;
     }
 }

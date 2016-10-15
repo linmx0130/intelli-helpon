@@ -65,7 +65,7 @@ public class Application {
                 OfficialDocs_Java officialDocs_java = new OfficialDocs_Java();
                 GitHub gitHub = new GitHub();
                 try {
-                    r.Append(stackOverFlow.getResult(key));
+                    r.Append(stackOverFlow.getResult(key,lang));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
