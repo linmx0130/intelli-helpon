@@ -2,7 +2,7 @@
   "context-menu": {
     "atom-text-editor": [
       {
-        "label": "Search Intelli Help",
+        "label": "Search Intelli Helpon",
         "command": "intelli-helpon:toggle"
       }
     ]
@@ -12,13 +12,8 @@
       "label": "Packages",
       "submenu": [
         {
-          "label": "intelli-helpon",
-          "submenu": [
-            {
-              "label": "Toggle",
+          "label": "Intelli Helpon",
               "command": "intelli-helpon:toggle"
-            }
-          ]
         }
       ]
     }
