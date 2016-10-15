@@ -9,26 +9,28 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Created by 王渝 on 2016-10-15.
  * Email : wwangyuu@outlook.com
  * University : University of Electronic Science and Technology of Zhangjiang
  */
-public class StackOverFlow implements ILanguageService {
+public class StackOverFlow implements ILanguageService,IService {
 
     private static final String STACKOVERFLOW = "http://stackoverflow.com";
 
     @Override
-    public ResultEntity getResult(String keyword,String language) throws IOException {
+    public ResultEntity getResult(String keyword, String language) throws IOException {
         ResultEntity en = new ResultEntity();
-        TagSearch(keyword,language,en);
+        TagSearch(keyword, language, en);
         PlainSearch(keyword, en);
         return en;
     }
 
     private void TagSearch(String keyword, String language, ResultEntity en) throws IOException {
-        String html = NetWorking.GET(STACKOVERFLOW + "/search?q=" + keyword+" ["+language+"]");
+        String request = URLEncoder.encode(keyword + "+[" + language + "]", "utf8");
+        String html = NetWorking.GET(STACKOVERFLOW + "/search?q=" + request);
         Extract(en, html);
     }
 
@@ -60,5 +62,12 @@ public class StackOverFlow implements ILanguageService {
             Item i = new Item(DocType.StackOverFlow, title, summary_text, STACKOVERFLOW + href);
             en.addItem(i);
         }
+    }
+
+    @Override
+    public ResultEntity getResult(String keyword) throws IOException {
+        ResultEntity en = new ResultEntity();
+        PlainSearch(keyword, en);
+        return en;
     }
 }
