@@ -18,7 +18,7 @@ public class OfficialDocs_JavaScript implements IService {
     private static final String MDN_SEARCH =
             "https://developer.mozilla.org/en-US/search?topic=js&topic=api&topic=webdev&q=";
     @Override
-    public ResultEntity getResult(String keyword) {
+    public ResultEntity getResult(String keyword) throws IOException {
         ResultEntity en = new ResultEntity();
         String html = NetWorking.GET(MDN_SEARCH + keyword);
         Document doc = Jsoup.parse(html);
@@ -33,14 +33,14 @@ public class OfficialDocs_JavaScript implements IService {
             String summaryText = summary.text();
             String summaryHtml = summary.html();
 
-            System.out.println(href);
+            System.out.println(link);
             System.out.println(title);
-            System.out.println(summary_text);
-            System.out.println(summary_html);
+            System.out.println(summaryText);
+            System.out.println(summaryHtml);
             System.out.println("---------------------------");
-            Item i = new Item(DocType.OfficialDocs, title, summary_text, href);
+            Item i = new Item(DocType.OfficialDocs, title, summaryText, link);
             en.addItem(i);
         }
-        return null;
+        return en;
     }
 }
