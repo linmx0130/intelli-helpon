@@ -22,8 +22,11 @@ public class OfficialDocs_JavaScript implements IService {
         ResultEntity en = new ResultEntity();
         String html = NetWorking.GET(MDN_SEARCH + keyword);
         Document doc = Jsoup.parse(html);
-        Elements search_results = doc.getElementsByClass("result-list").first().children();
-        for (Element ele : search_results){
+        Element search_results = doc.getElementsByClass("result-list").first();
+        if (search_results == null) {
+            return en;
+        }
+        for (Element ele : search_results.children()){
             Element resultItem = ele.getElementsByClass("result-list-item").first();
             Element resultLink = ele.getElementsByTag("h4").first().getElementsByTag("a").first();
             Element summary = ele.getElementsByTag("p").first();

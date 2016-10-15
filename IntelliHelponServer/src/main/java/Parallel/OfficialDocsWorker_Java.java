@@ -36,6 +36,7 @@ public class OfficialDocsWorker_Java extends Thread {
             latch.countDown();
         } catch (IOException e) {
             e.printStackTrace();
+            latch.countDown();
         }
     }
 
