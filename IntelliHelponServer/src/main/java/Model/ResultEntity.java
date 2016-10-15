@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +23,17 @@ public class ResultEntity {
 
     List<Item> items;
 
-    public void Append(ResultEntity another){
+    public void Append(ResultEntity another) {
+        if (another == null){return;}
         this.items.addAll(another.getItems());
+    }
+
+    public ResultEntity() {
+        items = new ArrayList<>();
+    }
+
+    public void addItem(Item item){
+        items.add(item);
     }
 }
 

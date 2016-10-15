@@ -9,6 +9,6 @@ import java.io.IOException;
  * Email : wwangyuu@outlook.com
  * University : University of Electronic Science and Technology of Zhangjiang
  */
-public interface IService {
-    ResultEntity getResult(String keyword) throws IOException;
+public interface ILanguageService {
+    ResultEntity getResult(String keyword, String language) throws IOException;
 }
