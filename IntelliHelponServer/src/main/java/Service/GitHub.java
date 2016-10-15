@@ -25,7 +25,7 @@ public class GitHub implements ILanguageService,IService {
          //       language.toLowerCase(),"Accept","application/vnd.github.v3.text-match+json");
         String json = NetWorking.GET_GITHUB(GITHUBSEARCH+"?q="+keyword+"+language:"+
                 language.toLowerCase());
-        System.out.print(json);
+        //System.out.print(json);
         Extract(en,json);
         return en;
     }
@@ -34,6 +34,13 @@ public class GitHub implements ILanguageService,IService {
         gitapientity entity = JSON.parseObject(json,gitapientity.class);
         for (gitapientityitem i : entity.items){
             Item ii = new Item(DocType.Github,i.repository.full_name,i.path,i.html_url);
+
+//            System.out.println("begin---------------------------");
+//            System.out.println(ii.getLink());
+//            System.out.println(ii.getTitle());
+//            System.out.println(ii.getContent());
+//            System.out.println("end-----------------------------");
+
             en.addItem(ii);
         }
     }
@@ -41,10 +48,10 @@ public class GitHub implements ILanguageService,IService {
     @Override
     public ResultEntity getResult(String keyword) throws IOException {
         ResultEntity en = new ResultEntity();
-        //String json = NetWorking.GET(GITHUBSEARCH+"?q="+keyword+"+language:"+
-        //       language.toLowerCase(),"Accept","application/vnd.github.v3.text-match+json");
+//        String json = NetWorking.GET(GITHUBSEARCH+"?q="+keyword+"+language:"+
+//               language.toLowerCase(),"Accept","application/vnd.github.v3.text-match+json");
         String json = NetWorking.GET_GITHUB(GITHUBSEARCH+"?q="+keyword);
-        System.out.print(json);
+//        System.out.print(json);
         Extract(en,json);
         return en;
     }

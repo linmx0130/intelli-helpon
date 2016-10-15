@@ -33,11 +33,13 @@ public class OfficialDocs_JavaScript implements IService {
             String summaryText = summary.text();
             String summaryHtml = summary.html();
 
-            System.out.println(link);
-            System.out.println(title);
-            System.out.println(summaryText);
-            System.out.println(summaryHtml);
-            System.out.println("---------------------------");
+//            System.out.println("begin---------------------------");
+//            System.out.println(link);
+//            System.out.println(title);
+//            System.out.println(summaryText);
+//            System.out.println(summaryHtml);
+//            System.out.println("end-----------------------------");
+
             Item i = new Item(DocType.OfficialDocs, title, summaryText, link);
             en.addItem(i);
         }

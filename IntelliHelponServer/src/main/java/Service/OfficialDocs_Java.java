@@ -32,11 +32,12 @@ public class OfficialDocs_Java implements IService {
             String summary_text = summary.text();
             String summary_html = summary.html();
 
-            System.out.println(href);
-            System.out.println(title);
-            System.out.println(summary_text);
-            System.out.println(summary_html);
-            System.out.println("---------------------------");
+//            System.out.println("begin---------------------------");
+//            System.out.println(href);
+//            System.out.println(title);
+//            System.out.println(summary_text);
+//            System.out.println(summary_html);
+//            System.out.println("end-----------------------------");
 
             Item i = new Item(DocType.OfficialDocs, title, summary_text, href);
             en.addItem(i);
