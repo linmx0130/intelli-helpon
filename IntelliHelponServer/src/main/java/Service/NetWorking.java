@@ -2,8 +2,23 @@ package Service;
 
 import Model.ResultEntity;
 import com.sun.istack.internal.NotNull;
+import org.apache.http.Header;
+import org.apache.http.HttpRequest;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthenticationException;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,7 +39,40 @@ public class NetWorking {
                 .execute().returnContent().asString();
     }
 
-    public String GET(String url, @NotNull Map<String, String> params) throws IOException {
+    public static String GET(String url, String head_key, String head_value) throws IOException {
+        return Request.Get(url).addHeader(head_key, head_value)
+                .execute().returnContent().asString();
+    }
+
+    private static CloseableHttpClient clientforGitHub;
+
+    public static void initGitHub() {
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(
+                new AuthScope("api.github.com", 443, "realm"),
+                new UsernamePasswordCredentials("linmx0130", "e1d0695fa360b83a476e1c3598b4ca2fc0d9e61b"));
+        clientforGitHub = HttpClients.custom()
+                .setDefaultCredentialsProvider(credsProvider)
+                .build();
+    }
+
+    public static String GET_GITHUB(String url) throws IOException {
+        if (clientforGitHub==null){
+            throw new NullPointerException("Client must be inited before using");
+        }
+        UsernamePasswordCredentials creds = new UsernamePasswordCredentials("linmx0130", "e1d0695fa360b83a476e1c3598b4ca2fc0d9e61b");
+        HttpUriRequest request = new HttpGet(url);
+        try {
+            request.addHeader(new BasicScheme().authenticate(creds, request));
+        } catch (AuthenticationException e) {
+            return "";
+        }
+        CloseableHttpResponse response = clientforGitHub.execute(request);
+        return EntityUtils.toString(response.getEntity());
+    }
+
+
+    public static String GET(String url, @NotNull Map<String, String> params) throws IOException {
         StringBuilder sb = new StringBuilder();
         sb.append("?");
         if (params.size() < 1) {
