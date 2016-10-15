@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Search Intelli Help",
+        "command": "intelli-helpon:toggle"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "intelli-helpon",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "intelli-helpon:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
