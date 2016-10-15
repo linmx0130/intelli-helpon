@@ -15,16 +15,16 @@ import java.io.IOException;
  */
 public class OfficialDocs_Java implements IService {
     private static final String JAVA_DOCS =
-        "http://docs.oracle.com/apps/search/search.jsp?category=java&q=";
+            "http://docs.oracle.com/apps/search/search.jsp?category=java&q=";
     @Override
-    public ResultEntity getResult(String keyword) {
+    public ResultEntity getResult(String keyword) throws IOException {
         ResultEntity en = new ResultEntity();
         String html = NetWorking.GET(JAVA_DOCS + keyword);
         Document doc = Jsoup.parse(html);
         Elements search_results = doc.getElementsByClass("srch-result");
         for (Element ele : search_results) {
-            Element summary = summary.getElementsByTag("p").first();
-            Element result_link = summary.getElementsByClass("topictitle").first();
+            Element summary = ele.getElementsByTag("p").first();
+            Element result_link = ele.getElementsByClass("topictitle").first();
 
             Element link = result_link.select("a").first();
             String href = link.attr("href");

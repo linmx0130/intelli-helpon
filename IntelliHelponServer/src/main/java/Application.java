@@ -45,7 +45,7 @@ public class Application {
                     .putHeader("content-type", "application/json; charset=utf-8")
                     .end(JSON);
         });
-        server.requestHandler(router::accept).listen(80);
+        server.requestHandler(router::accept).listen(8080);
     }
 
     private static ResultEntity Query(String lang, String key) {
@@ -70,7 +70,11 @@ public class Application {
                     e.printStackTrace();
                 }
                 r.Append(sourceCode_java.getResult(key));
-                r.Append(officialDocs_java.getResult(key));
+                try {
+                    r.Append(officialDocs_java.getResult(key));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 r.Append(gitHub.getResult(key));
                 break;
             case JavaScript:
