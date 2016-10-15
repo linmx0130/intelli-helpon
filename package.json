@@ -1,9 +1,10 @@
 {
   "name": "intelli-helpon",
   "main": "./lib/intelli-helpon",
-  "version": "0.0.0",
-  "description": "A short description of your package",
+  "version": "0.0.1",
+  "description": "Intelligent search entry for programmers.",
   "keywords": [
+      "stackoverflow", "github", "documents","search"
   ],
   "activationCommands": {
     "atom-workspace": "intelli-helpon:toggle"
