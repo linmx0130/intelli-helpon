@@ -26,13 +26,13 @@ public class OfficialDocsWorker_Java extends Thread {
     private String keyword;
 
     public void run(){
-        System.out.println("[OfficialDocs]  begin");
+        System.out.println("[OfficialDocs]   begin");
         long currentTime = System.currentTimeMillis();
         try {
             resultEntity = officialDocs_java.getResult(keyword);
 
             long now = System.currentTimeMillis();
-            System.out.println("[OfficialDocs]  end                 " + (now - currentTime) + "ms");
+            System.out.println("[OfficialDocs]   end             "+(now - currentTime)+"ms");
             latch.countDown();
         } catch (IOException e) {
             e.printStackTrace();
