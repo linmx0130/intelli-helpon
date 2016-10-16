@@ -2,6 +2,7 @@
 
 Intelligent search entry for programmers."
 
+![Demo](pictures/demo.png)
 ## Data sources
 * StackOverflow
 * Github
