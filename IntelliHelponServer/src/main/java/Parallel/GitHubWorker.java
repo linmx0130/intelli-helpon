@@ -31,16 +31,17 @@ public class GitHubWorker extends Thread {
 
     public void run() {
         try {
-            System.out.println("[GitHub]  begin");
+            System.out.println("[GitHub]         begin");
+
             long e = System.currentTimeMillis();
-            if(this.language == null) {
+            if (this.language == null) {
                 mresult = this.gitHub.getResult(this.keyword);
             } else {
                 mresult = this.gitHub.getResult(this.keyword, this.language);
             }
 
             long now = System.currentTimeMillis();
-            System.out.println("[GitHub]  end                 " + (now - e) + "ms");
+            System.out.println("[GitHub]         end             " + (now - e) + "ms");
             this.latch.countDown();
         } catch (IOException var5) {
             var5.printStackTrace();

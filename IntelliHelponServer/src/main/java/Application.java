@@ -1,9 +1,6 @@
 import Model.Language;
 import Model.ResultEntity;
-import Parallel.GitHubWorker;
-import Parallel.OfficialDocsWorker_Java;
-import Parallel.OfficialDocsWorker_JavaScript;
-import Parallel.StackOverFlowWorker;
+import Parallel.*;
 import Service.*;
 import Handler.StaticPageHandler;
 import com.alibaba.fastjson.JSON;
@@ -86,17 +83,27 @@ public class Application {
         Language language = Language.valueOf(lang);
         System.out.println("Language:" + lang);
         switch (language) {
-            case C:
-                //TODO C
-                StackOverFlow stackOverFlowC = new StackOverFlow();
-                SourceCode_C sourceCode_c = new SourceCode_C();
-                OfficialDocs_C officialDocs_c = new OfficialDocs_C();
-                break;
             case CPP:
-                //TODO CPP
+                CountDownLatch latch4 = new CountDownLatch(3);
+                GitHubWorker gitHubWorker4 = new GitHubWorker(key, lang, latch4);
+                OfficialDocsWorker_CPP officialDocsWorker_cpp = new OfficialDocsWorker_CPP(latch4, key);
+                StackOverFlowWorker stackOverFlowWorker4 = new StackOverFlowWorker(latch4, key, lang);
+                gitHubWorker4.start();
+                officialDocsWorker_cpp.start();
+                stackOverFlowWorker4.start();
+
+                try {
+                    latch4.await();
+                } catch (InterruptedException var21) {
+                    var21.printStackTrace();
+                }
+
+                r.Append(gitHubWorker4.getResult());
+                r.Append(officialDocsWorker_cpp.getResult());
+                r.Append(stackOverFlowWorker4.getResult());
+
                 break;
             case Java:
-                //TODO Parallel
 //                StackOverFlow stackOverFlowJava = new StackOverFlow();
 //                SourceCode_Java sourceCode_java = new SourceCode_Java();
 //                OfficialDocs_Java officialDocs_java = new OfficialDocs_Java();
@@ -132,9 +139,9 @@ public class Application {
 //                }
 
                 CountDownLatch latch = new CountDownLatch(3);
-                GitHubWorker gitHubWorker = new GitHubWorker(key, latch);
+                GitHubWorker gitHubWorker = new GitHubWorker(key, lang, latch);
                 OfficialDocsWorker_Java officialDocsWorker_java = new OfficialDocsWorker_Java(latch, key);
-                StackOverFlowWorker stackOverFlowWorker = new StackOverFlowWorker(latch, key);
+                StackOverFlowWorker stackOverFlowWorker = new StackOverFlowWorker(latch, key, lang);
                 gitHubWorker.start();
                 officialDocsWorker_java.start();
                 stackOverFlowWorker.start();
@@ -251,7 +258,20 @@ public class Application {
 
                 break;
             default:
-                //TODO Default
+                CountDownLatch latch5 = new CountDownLatch(2);
+                GitHubWorker gitHubWorker5 = new GitHubWorker(key, latch5);
+                StackOverFlowWorker stackOverFlowWorker5 = new StackOverFlowWorker(latch5, key);
+                gitHubWorker5.start();
+                stackOverFlowWorker5.start();
+
+                try {
+                    latch5.await();
+                } catch (InterruptedException var19) {
+                    var19.printStackTrace();
+                }
+
+                r.Append(gitHubWorker5.getResult());
+                r.Append(stackOverFlowWorker5.getResult());
                 break;
         }
         return r;

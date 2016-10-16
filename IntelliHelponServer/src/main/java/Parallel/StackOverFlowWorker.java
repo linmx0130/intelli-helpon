@@ -42,7 +42,7 @@ public class StackOverFlowWorker extends Thread {
             }
 
             long now = System.currentTimeMillis();
-            System.out.println("[StackOverFlow]  end                 " + (now - e) + "ms");
+            System.out.println("[StackOverFlow]  end             "+(now - e)+"ms");
             this.latch.countDown();
         } catch (IOException var5) {
             var5.printStackTrace();
